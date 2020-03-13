@@ -1,0 +1,17 @@
+*
+!*/
+!/.ddev/**
+!/.github/**
+!/.gitignore
+!/**/.gitkeep
+!/.idea/**
+!/composer.json
+!/composer.lock
+!/docker-compose.yaml
+!/Makefile
+!/php.ini
+!/web/sites/default/settings.php
+!/web/sites/default/settings.symfony.php
+!/workspace.yml
+/.idea/workspace.xml
+/vendor/

@@ -1,0 +1,11 @@
+command('enable'): |
+  #!bash
+  php -S localhost:8000 -t web
+
+command('drush %'): |
+  #!bash|=
+  vendor/bin/drush --root web ={ input.argument('%') }
+
+command('phpunit %'): |
+  #!bash|=
+  vendor/bin/phpunit --verbose --testdox --colors=always ={ input.argument('%') }

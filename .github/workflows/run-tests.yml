@@ -1,0 +1,50 @@
+name: Run tests
+
+on: push
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    name: "Run ${{ matrix.test-types }} tests"
+
+    strategy:
+      fail-fast: true
+      matrix:
+        test-types:
+          - functional
+          - kernel
+          - unit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@a81bbbf
+
+      - name: Cache dependencies
+        uses: actions/cache@d974700
+        with:
+          path: |
+            ~/.composer/cache/files
+            vendor
+            web/core
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@5d27b8f
+        with:
+          php-version: 7.4
+          extensions: mbstring
+          coverage: none
+          tools: composer:v1
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-suggest
+
+      - name: Start the local web server
+        run: php -S localhost:8000 -t web 2>&1 &
+        if: matrix.test-types == 'functional'
+
+      - name: Execute tests
+        run: composer test -- --colors=always --testsuite=${{ matrix.test-types }}
+        env:
+          SIMPLETEST_BASE_URL: http://localhost:8000
