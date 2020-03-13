@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  database:
+    image: mysql:5.7
+    ports: [3306]
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  database_umami:
+    image: mysql:5.7
+    ports: [3306]
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - mysql-data-umami:/var/lib/mysql
+    labels:
+      com.symfony.server.service-prefix: 'DATABASE_UMAMI'
+
+volumes:
+  mysql-data:
+  mysql-data-umami:

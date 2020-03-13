@@ -1,0 +1,56 @@
+name: Run tests
+
+on:
+  push:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    name: "Run ${{ matrix.test-types }} tests"
+
+    strategy:
+      fail-fast: true
+      matrix:
+        test-types:
+          - functional
+          - kernel
+          - unit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.3
+          extensions: mbstring
+          coverage: none
+
+      - name: Install the Symfony local web server
+        run: |
+          wget https://get.symfony.com/cli/installer -O - | bash
+          mv /home/runner/.symfony/bin/symfony /usr/local/bin/symfony
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-suggest
+
+      - name: Start the local web server
+        run: symfony serve -d
+        if: matrix.test-types == 'functional'
+
+      - name: Execute tests
+        run: composer test -- --testsuite=${{ matrix.test-types }}
+        env:
+          SIMPLETEST_BASE_URL: http://localhost:8000
+
+      - name: Stop the local web server
+        run: symfony server:stop
+        if: matrix.test-types == 'functional'
