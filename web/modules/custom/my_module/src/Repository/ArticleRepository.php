@@ -3,6 +3,7 @@
 namespace Drupal\my_module\Repository;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\node\NodeInterface;
 
 class ArticleRepository {
 
@@ -17,6 +18,7 @@ class ArticleRepository {
 
   public function getAll(): array {
     return $this->nodeStorage->loadByProperties([
+      'status' => NodeInterface::PUBLISHED,
       'type' => 'article',
     ]);
   }
