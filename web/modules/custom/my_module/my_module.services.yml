@@ -1,2 +1,6 @@
 services:
-  Drupal\my_module\Repository\ArticleRepository: ~
+  Drupal\Core\Entity\EntityTypeManagerInterface:
+    alias: entity_type.manager
+
+  Drupal\my_module\Repository\ArticleRepository:
+    autowire: true
