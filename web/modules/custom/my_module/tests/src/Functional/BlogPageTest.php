@@ -21,6 +21,8 @@ class BlogPageTest extends BrowserTestBase {
     $session = $this->assertSession();
 
     $session->statusCodeEquals(Response::HTTP_OK);
+    $session->responseContains('<h1>Blog</h1>');
+    $session->pageTextContains('Welcome to my blog!');
   }
 
 }
