@@ -4,8 +4,11 @@ namespace Drupal\Tests\my_module\Kernel;
 
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use Drupal\my_module\Repository\ArticleRepository;
+use Drupal\Tests\node\Traits\NodeCreationTrait;
 
 class ArticleRepositoryTest extends EntityKernelTestBase {
+
+  use NodeCreationTrait;
 
   public static $modules = [
     'node',
@@ -14,6 +17,10 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
 
   /** @test */
   public function nodes_that_are_not_articles_are_not_returned() {
+    $this->createNode(['type' => 'article'])->save();
+    $this->createNode(['type' => 'article'])->save();
+    $this->createNode(['type' => 'article'])->save();
+
     $repository = $this->container->get(ArticleRepository::class);
     $articles = $repository->getAll();
 
