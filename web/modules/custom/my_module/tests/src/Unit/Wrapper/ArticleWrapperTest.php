@@ -11,6 +11,8 @@ class ArticleWrapperTest extends UnitTestCase {
   /** @test */
   public function it_can_return_the_article() {
     $article = $this->createMock(NodeInterface::class);
+    $article->method('id')->willReturn(5);
+    $article->method('bundle')->willReturn('article');
 
     $articleWrapper = new ArticleWrapper($article);
 
