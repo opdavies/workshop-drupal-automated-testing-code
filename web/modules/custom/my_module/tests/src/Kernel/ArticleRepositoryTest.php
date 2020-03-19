@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\my_module\Kernel;
 
+use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use Drupal\my_module\Repository\ArticleRepository;
 use Drupal\node\NodeInterface;
@@ -52,6 +53,21 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
     $articles = $repository->getAll();
 
     $this->assertCount(3, $articles);
+  }
+
+  /** @test */
+  public function nodes_are_ordered_by_date_and_returned_newest_first() {
+    $this->createNode(['type' => 'article', 'created' => (new DrupalDateTime('-2 days'))->getTimestamp()]);
+    $this->createNode(['type' => 'article', 'created' => (new DrupalDateTime('-1 week'))->getTimestamp()]);
+    $this->createNode(['type' => 'article', 'created' => (new DrupalDateTime('-1 hour'))->getTimestamp()]);
+    $this->createNode(['type' => 'article', 'created' => (new DrupalDateTime('-1 year'))->getTimestamp()]);
+    $this->createNode(['type' => 'article', 'created' => (new DrupalDateTime('-1 month'))->getTimestamp()]);
+
+    $repository = $this->container->get(ArticleRepository::class);
+    $nodes = $repository->getAll();
+    $nodeIds = array_keys($nodes);
+
+    $this->assertSame([3, 1, 2, 5, 4], $nodeIds);
   }
 
 }
