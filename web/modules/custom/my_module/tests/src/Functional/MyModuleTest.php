@@ -25,4 +25,17 @@ class MyModuleTest extends BrowserTestBase {
     $this->assertResponse(Response::HTTP_FORBIDDEN);
   }
 
+  /** @test */
+  public function the_admin_page_is_accessible_by_admin_users() {
+    $adminUser = $this->createUser([
+      'access administration pages',
+    ]);
+
+    $this->drupalLogin($adminUser);
+
+    $this->drupalGet('admin');
+
+    $this->assertResponse(Response::HTTP_OK);
+  }
+
 }
