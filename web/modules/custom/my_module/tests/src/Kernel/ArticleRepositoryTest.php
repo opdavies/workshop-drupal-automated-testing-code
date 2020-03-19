@@ -15,6 +15,14 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
     'my_module',
   ];
 
+  protected function setUp() {
+    parent::setUp();
+
+    $this->installConfig([
+      'filter',
+    ]);
+  }
+
   /** @test */
   public function nodes_that_are_not_articles_are_not_returned() {
     $this->createNode(['type' => 'article'])->save();
