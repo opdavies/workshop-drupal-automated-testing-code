@@ -17,10 +17,20 @@ class ArticleRepository {
   }
 
   public function getAll(): array {
-    return $this->nodeStorage->loadByProperties([
+    $articles = $this->nodeStorage->loadByProperties([
       'status' => NodeInterface::PUBLISHED,
       'type' => 'article',
     ]);
+
+    $this->sortByCreatedDate($articles);
+
+    return $articles;
+  }
+
+  private function sortByCreatedDate(array &$articles): void {
+    uasort($articles, function (NodeInterface $a, NodeInterface $b): bool {
+      return $a->getCreatedTime() < $b->getCreatedTime();
+    });
   }
 
 }
