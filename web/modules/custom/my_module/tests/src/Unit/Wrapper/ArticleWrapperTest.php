@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\my_module\Unit\Wrapper;
 
+use Drupal\Component\Datetime\Time;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\my_module\Wrapper\ArticleWrapper;
 use Drupal\node\NodeInterface;
@@ -9,14 +10,21 @@ use Drupal\Tests\UnitTestCase;
 
 class ArticleWrapperTest extends UnitTestCase {
 
+  private $time;
+
+  protected function setUp() {
+    parent::setUp();
+
+    $this->time = $this->createMock(Time::class);
+  }
+
   /** @test */
   public function it_can_return_the_article() {
     $article = $this->createMock(NodeInterface::class);
     $article->method('id')->willReturn(5);
     $article->method('bundle')->willReturn('article');
 
-    $time = $this->createMock(TimeInterface::class);
-    $articleWrapper = new ArticleWrapper($time, $article);
+    $articleWrapper = $this->createArticleWrapper($article);
 
     $this->assertInstanceOf(NodeInterface::class, $articleWrapper->getOriginal());
     $this->assertSame(5, $articleWrapper->getOriginal()->id());
@@ -30,8 +38,7 @@ class ArticleWrapperTest extends UnitTestCase {
     $page = $this->createMock(NodeInterface::class);
     $page->method('bundle')->willReturn('page');
 
-    $time = $this->createMock(TimeInterface::class);
-    new ArticleWrapper($time, $page);
+    $articleWrapper = $this->createArticleWrapper($page);
   }
 
   /**
@@ -42,9 +49,7 @@ class ArticleWrapperTest extends UnitTestCase {
     string $offset,
     bool $expected
   ) {
-    $time = $this->createMock(TimeInterface::class);
-
-    $time->method('getRequestTime')->willReturn(
+    $this->time->method('getRequestTime')->willReturn(
       (new \DateTime())->getTimestamp()
     );
 
@@ -55,7 +60,7 @@ class ArticleWrapperTest extends UnitTestCase {
       (new \DateTime())->modify($offset)->getTimestamp()
     );
 
-    $articleWrapper = new ArticleWrapper($time, $article);
+    $articleWrapper = $this->createArticleWrapper($article);
 
     $this->assertSame($expected, $articleWrapper->isPublishable());
   }
@@ -67,6 +72,10 @@ class ArticleWrapperTest extends UnitTestCase {
       ['-3 days', TRUE],
       ['-1 week', TRUE],
     ];
+  }
+
+  private function createArticleWrapper(NodeInterface $article): ArticleWrapper {
+    return new ArticleWrapper($this->time, $article);
   }
 
 }
