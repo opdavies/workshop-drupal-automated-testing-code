@@ -10,6 +10,7 @@ class BlogPageTest extends BrowserTestBase {
   protected $defaultTheme = 'stark';
 
   protected static $modules = [
+    'node',
     'my_module',
   ];
 
