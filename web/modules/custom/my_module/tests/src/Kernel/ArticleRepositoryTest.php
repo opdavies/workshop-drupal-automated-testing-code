@@ -8,6 +8,7 @@ use Drupal\my_module\Repository\ArticleRepository;
 class ArticleRepositoryTest extends EntityKernelTestBase {
 
   public static $modules = [
+    'node',
     'my_module',
   ];
 
