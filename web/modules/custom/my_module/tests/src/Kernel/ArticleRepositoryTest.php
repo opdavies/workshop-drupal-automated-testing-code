@@ -28,7 +28,9 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
   /** @test */
   public function nodes_that_are_not_articles_are_not_returned() {
     $this->createNode(['type' => 'article'])->save();
+    $this->createNode(['type' => 'page'])->save();
     $this->createNode(['type' => 'article'])->save();
+    $this->createNode(['type' => 'page'])->save();
     $this->createNode(['type' => 'article'])->save();
 
     $repository = $this->container->get(ArticleRepository::class);
