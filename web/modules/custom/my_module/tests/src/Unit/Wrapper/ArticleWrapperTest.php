@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\my_module\Unit\Wrapper;
 
+use Drupal\my_module\Wrapper\ArticleWrapper;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
 
