@@ -16,7 +16,9 @@ class ArticleRepository {
   }
 
   public function getAll(): array {
-    return $this->nodeStorage->loadMultiple();
+    return $this->nodeStorage->loadByProperties([
+      'type' => 'article',
+    ]);
   }
 
 }
