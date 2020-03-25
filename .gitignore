@@ -3,7 +3,7 @@
 !/.github/**
 !/.gitignore
 !/**/.gitkeep
-!/.idea/*.iml
+!/.idea/**
 !/composer.json
 !/composer.lock
 !/docker-compose.yaml
@@ -12,4 +12,5 @@
 !/web/modules/custom/**
 !/web/sites/default/settings.php
 !/web/sites/default/settings.symfony.php
+/.idea/workspace.xml
 /vendor/
