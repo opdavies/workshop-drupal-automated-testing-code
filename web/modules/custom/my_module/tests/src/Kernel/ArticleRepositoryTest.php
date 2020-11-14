@@ -27,6 +27,18 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
     $this->assertSame('Test post', $articles[1]->label());
   }
 
+  /** @test */
+  public function nodes_that_are_not_articles_are_not_returned() {
+    $this->createNode(['type' => 'article'])->save();
+    $this->createNode(['type' => 'article'])->save();
+    $this->createNode(['type' => 'article'])->save();
+
+    $repository = $this->container->get(ArticleRepository::class);
+    $articles = $repository->getAll();
+
+    $this->assertCount(3, $articles);
+  }
+
   protected function setUp() {
     parent::setUp();
 
