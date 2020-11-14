@@ -21,4 +21,15 @@ class PostTest extends UnitTestCase {
     $this->assertSame('Test post', $post->getTitle());
   }
 
+  /** @test */
+  public function it_throws_an_exception_if_the_node_is_not_an_article() {
+    $node = $this->createMock(NodeInterface::class);
+
+    $node->method('bundle')->willReturn('page');
+
+    $this->expectException(\InvalidArgumentException::class);
+
+    new Post($node);
+  }
+
 }
