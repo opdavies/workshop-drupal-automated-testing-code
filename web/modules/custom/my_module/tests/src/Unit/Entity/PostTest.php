@@ -9,7 +9,7 @@ class PostTest extends UnitTestCase {
 
   /** @test */
   public function it_returns_the_title() {
-    $post = new Post();
+    $post = new Post($node);
 
     $this->assertSame('Test post', $post->getTitle());
   }
