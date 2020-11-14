@@ -3,6 +3,7 @@
 namespace Drupal\my_module\Repository;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\my_module\Entity\Post;
 use Drupal\node\NodeInterface;
 
 class ArticleRepository {
@@ -21,7 +22,9 @@ class ArticleRepository {
 
     $this->sortByCreatedDate($articles);
 
-    return $articles;
+    return array_map(function (NodeInterface $node): Post {
+      return new Post();
+    }, $articles);
   }
 
   private function sortByCreatedDate(array &$articles): void {
