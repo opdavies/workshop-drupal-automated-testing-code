@@ -22,4 +22,10 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
     $this->assertCount(1, $articles);
   }
 
+  protected function setUp() {
+    parent::setUp();
+
+    $this->installConfig(['filter']);
+  }
+
 }
