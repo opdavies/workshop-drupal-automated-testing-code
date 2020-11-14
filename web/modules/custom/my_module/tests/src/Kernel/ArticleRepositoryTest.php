@@ -4,6 +4,7 @@ namespace Drupal\Tests\my_module\Kernel;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
+use Drupal\my_module\Entity\Post;
 use Drupal\my_module\Repository\ArticleRepository;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
@@ -23,9 +24,8 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
 
     $this->assertCount(1, $articles);
     $this->assertIsObject($articles[1]);
-    $this->assertInstanceOf(NodeInterface::class, $articles[1]);
-    $this->assertSame('article', $articles[1]->bundle());
-    $this->assertSame('Test post', $articles[1]->label());
+    $this->assertInstanceOf(Post::class, $articles[1]);
+    $this->assertSame('Test post', $articles[1]->getTitle());
   }
 
   /** @test */
