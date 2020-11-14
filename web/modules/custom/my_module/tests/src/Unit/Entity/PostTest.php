@@ -15,6 +15,7 @@ class PostTest extends UnitTestCase {
     $node->expects($this->once())
       ->method('label')
       ->willReturn('Test post');
+    $node->method('bundle')->willReturn('article');
 
     $post = new Post($node);
 
