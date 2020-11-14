@@ -26,6 +26,8 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
     parent::setUp();
 
     $this->installConfig(['filter']);
+
+    $this->installSchema('node', ['node_access']);
   }
 
 }
