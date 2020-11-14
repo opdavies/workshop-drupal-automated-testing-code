@@ -12,6 +12,10 @@ class PostTest extends UnitTestCase {
   public function it_returns_the_title() {
     $node = $this->createMock(NodeInterface::class);
 
+    $node->expects($this->once())
+      ->method('label')
+      ->willReturn('Test post');
+
     $post = new Post($node);
 
     $this->assertSame('Test post', $post->getTitle());
