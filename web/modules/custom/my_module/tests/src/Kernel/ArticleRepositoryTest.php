@@ -41,6 +41,20 @@ class ArticleRepositoryTest extends EntityKernelTestBase {
     $this->assertCount(3, $articles);
   }
 
+  /** @test */
+  public function only_published_articles_are_returned() {
+    $this->createNode(['type' => 'article', 'status' => NodeInterface::PUBLISHED])->save();
+    $this->createNode(['type' => 'article', 'status' => NodeInterface::NOT_PUBLISHED])->save();
+    $this->createNode(['type' => 'article', 'status' => NodeInterface::PUBLISHED])->save();
+    $this->createNode(['type' => 'article', 'status' => NodeInterface::NOT_PUBLISHED])->save();
+    $this->createNode(['type' => 'article', 'status' => NodeInterface::PUBLISHED])->save();
+
+    $repository = $this->container->get(ArticleRepository::class);
+    $articles = $repository->getAll();
+
+    $this->assertCount(3, $articles);
+  }
+
   protected function setUp() {
     parent::setUp();
 
