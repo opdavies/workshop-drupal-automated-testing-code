@@ -23,7 +23,7 @@ class ArticleRepository {
     $this->sortByCreatedDate($articles);
 
     return array_map(function (NodeInterface $node): Post {
-      return new Post();
+      return new Post($node);
     }, $articles);
   }
 
