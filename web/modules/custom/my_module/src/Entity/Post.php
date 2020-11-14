@@ -13,7 +13,7 @@ class Post {
   }
 
   public function getTitle(): string {
-    return '';
+    return $this->node->label();
   }
 
 }
