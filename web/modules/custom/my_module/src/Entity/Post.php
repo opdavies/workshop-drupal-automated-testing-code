@@ -9,6 +9,10 @@ class Post {
   private $node;
 
   public function __construct(NodeInterface $node) {
+    if ($node->bundle() != 'article') {
+      throw new \InvalidArgumentException();
+    }
+
     $this->node = $node;
   }
 
