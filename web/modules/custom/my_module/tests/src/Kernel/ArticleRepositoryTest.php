@@ -7,7 +7,7 @@ use Drupal\my_module\Repository\ArticleRepository;
 
 class ArticleRepositoryTest extends EntityKernelTestBase {
 
-  public static $modules = ['my_module'];
+  public static $modules = ['node', 'my_module'];
 
   /** @test */
   public function it_returns_blog_posts() {
